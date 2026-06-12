@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BIOFERT</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        :root {
+            --primary-green: #2d8e5f;
+            --secondary-green: #3ba876;
+            --light-green: #e8f5f0;
+            --dark-bg: #1a1a1a;
+            --accent-yellow: #f4c430;
+            --text-dark: #1a1a1a;
+            --text-light: #555;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            padding-bottom: 1rem;
+        }
+
+        .sidebar-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+        }
+
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin: 0.5rem 0;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: rgba(255,255,255,0.2);
+            border-left: 4px solid var(--accent-yellow);
+            padding-left: calc(1.5rem - 4px);
+        }
+
+        .sidebar-nav i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header h2 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-2px);
+        }
+
+        /* Login Form */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-container.hidden {
+            display: none;
+        }
+
+        .login-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--light-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+        }
+
+        .login-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-form h1 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .login-form > p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(45, 142, 95, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .login-btn:hover {
+            background: var(--secondary-green);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(45, 142, 95, 0.3);
+        }
+
+        .login-error {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(45, 142, 95, 0.05);
+            border-radius: 50%;
+        }
+
+        .kpi-card.success { border-left-color: var(--success); }
+        .kpi-card.warning { border-left-color: var(--warning); }
+        .kpi-card.info { border-left-color: var(--info); }
+        .kpi-card.danger { border-left-color: var(--danger); }
+
+        .kpi-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .kpi-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .kpi-card.success .kpi-icon { color: var(--success); }
+        .kpi-card.warning .kpi-icon { color: var(--warning); }
+        .kpi-card.info .kpi-icon { color: var(--info); }
+        .kpi-card.danger .kpi-icon { color: var(--danger); }
+
+        .kpi-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-change {
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+
+        /* Charts Container */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .chart-title {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            display: none;
+            overflow-x: auto;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar select,
+        .filter-bar input {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Table */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            min-width: 600px;
+        }
+
+        .orders-table thead {
+            background: var(--light-green);
+        }
+
+        .orders-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary-green);
+            border-bottom: 2px solid var(--primary-green);
+        }
+
+        .orders-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .orders-table tbody tr:hover {
+            background: var(--light-green);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: var(--warning);
+        }
+
+        .status-badge.completed {
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.cancelled {
+            background: rgba(244, 67, 54, 0.2);
+            color: var(--danger);
+        }
+
+        /* Buttons */
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-green);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            opacity: 0.8;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 250px;
+                padding: 1.5rem;
+            }
+
+            .header {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-value {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem 0;
+            }
+
+            .sidebar-header {
+                padding: 0 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .sidebar-logo {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto 0.5rem;
+            }
+
+            .sidebar-header h1 {
+                font-size: 1.2rem;
+            }
+
+            .sidebar-header p {
+                font-size: 0.8rem;
+            }
+
+            .sidebar-nav a {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .sidebar-nav i {
+                width: 18px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header h2 {
+                font-size: 1.4rem;
+            }
+
+            .logout-btn {
+                width: 100%;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-value {
+                font-size: 1.8rem;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .filter-bar select,
+            .filter-bar input {
+                width: 100%;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.7rem;
+                font-size: 0.85rem;
+            }
+
+            .action-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            .login-form {
+                padding: 2rem;
+                max-width: 90%;
+            }
+
+            .login-logo {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 1rem;
+            }
+
+            .login-form h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-nav a {
+                padding: 0.6rem 0.8rem;
+                gap: 0.8rem;
+            }
+
+            .header h2 {
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                padding: 0.8rem;
+            }
+
+            .kpi-grid {
+                gap: 1rem;
+            }
+
+            .kpi-card {
+                padding: 1rem;
+            }
+
+            .kpi-icon {
+                font-size: 1.5rem;
+            }
+
+            .kpi-label {
+                font-size: 0.75rem;
+            }
+
+            .kpi-value {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .orders-table {
+                font-size: 0.75rem;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.5rem;
+            }
+
+            .action-btn {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.7rem;
+            }
+
+            .login-form {
+                padding: 1.5rem;
+            }
+
+            .login-logo {
+                width: 70px;
+                height: 70px;
+            }
+
+            .form-group input {
+                padding: 0.6rem;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="login-container" id="loginContainer">
+        <form class="login-form" onsubmit="handleLogin(event)">
+            <div class="login-logo">
+                <img src="logo.jpeg" alt="BIOFERT Logo">
+            </div>
+            <h1>BIOFERT</h1>
+            <p>Espace Administration</p>
+            <div class="form-group">
+                <label for="adminUsername">Nom d'utilisateur</label>
+                <input type="text" id="adminUsername" required placeholder="Entrez votre nom d'utilisateur">
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Mot de passe</label>
+                <input type="password" id="adminPassword" required placeholder="Entrez votre mot de passe">
+            </div>
+            <button type="submit" class="login-btn">Se connecter</button>
+            <div class="login-error" id="loginError"></div>
+        </form>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="container" id="dashboard" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="logo.jpeg" alt="BIOFERT Logo">
+                </div>
+                <h1>BIOFERT</h1>
+                <p>Admin Dashboard</p>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a onclick="switchTab('dashboard')" class="nav-link active"><i class="fas fa-chart-line"></i> <span>Tableau de bord</span></a></li>
+                <li><a onclick="switchTab('orders')" class="nav-link"><i class="fas fa-shopping-cart"></i> <span>Commandes</span></a></li>
+                <li><a onclick="switchTab('products')" class="nav-link"><i class="fas fa-leaf"></i> <span>Produits</span></a></li>
+                <li><a onclick="logout()" class="nav-link" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2rem;"><i class="fas fa-sign-out-alt"></i> <span>Déconnexion</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h2 id="pageTitle">Tableau de bord</h2>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="section active">
+                <h2 class="section-title">KPI Principales</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card success">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-shopping-cart"></i></div>
+                            <div class="kpi-label">Total Commandes</div>
+                            <div class="kpi-value" id="totalOrders">0</div>
+                            <div class="kpi-change">+12% ce mois</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card warning">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-clock"></i></div>
+                            <div class="kpi-label">En Attente</div>
+                            <div class="kpi-value" id="pendingOrders">0</div>
+                            <div class="kpi-change">À traiter</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card info">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-money-bill"></i></div>
+                            <div class="kpi-label">Chiffre d'Affaires</div>
+                            <div class="kpi-value" id="totalRevenue">0 F</div>
+                            <div class="kpi-change">Revenu total</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card success">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="kpi-label">Complétées</div>
+                            <div class="kpi-value" id="completedOrders">0</div>
+                            <div class="kpi-change">Livrées</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Commandes par mois</h3>
+                        <div class="chart-container">
+                            <canvas id="ordersChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3 class="chart-title">Revenu par produit</h3>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3 class="chart-title">Statut des commandes</h3>
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3 class="chart-title">Ventes par format</h3>
+                        <div class="chart-container">
+                            <canvas id="formatChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--primary-green); margin-bottom: 1rem; font-size: 1.2rem;">Dernières Commandes</h3>
+                    <div id="recentOrders"></div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="ordersSection" class="section">
+                <h2 class="section-title">
+                    Gestion des Commandes
+                    <button class="action-btn btn-primary" onclick="refreshOrders()">
+                        <i class="fas fa-refresh"></i> Actualiser
+                    </button>
+                </h2>
+
+                <div class="filter-bar">
+                    <select id="statusFilter" onchange="filterOrders()">
+                        <option value="">Tous les statuts</option>
+                        <option value="En attente">En attente</option>
+                        <option value="Complétée">Complétée</option>
+                        <option value="Annulée">Annulée</option>
+                    </select>
+                    <input type="text" id="searchOrder" placeholder="Rechercher par ID..." onkeyup="filterOrders()">
+                </div>
+
+                <table class="orders-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Client</th>
+                            <th>Produits</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                    </tbody>
+                </table>
+                <div id="noOrders" class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucune commande trouvée</p>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div id="productsSection" class="section">
+                <h2 class="section-title">Gestion des Produits</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card info">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-weight"></i></div>
+                            <div class="kpi-label">Engrais 10kg</div>
+                            <div class="kpi-value">3 500 F</div>
+                            <div class="kpi-change">Prix unitaire</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card info">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-weight"></i></div>
+                            <div class="kpi-label">Engrais 25kg</div>
+                            <div class="kpi-value">8 000 F</div>
+                            <div class="kpi-change">Prix unitaire</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card info">
+                        <div class="kpi-content">
+                            <div class="kpi-icon"><i class="fas fa-weight"></i></div>
+                            <div class="kpi-label">Engrais 50kg</div>
+                            <div class="kpi-value">15 000 F</div>
+                            <div class="kpi-change">Prix unitaire</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 2rem; background: var(--light-green); border-radius: 10px;">
+                    <h3 style="color: var(--primary-green); margin-bottom: 1.5rem;">Statistiques des Produits</h3>
+                    <div id="productStats"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_USERNAME = 'Admin';
+        const ADMIN_PASSWORD = 'biofert123';
+
+        let ordersChartInstance = null;
+        let revenueChartInstance = null;
+        let statusChartInstance = null;
+        let formatChartInstance = null;
+
+        function initializeSampleData() {
+            const existingOrders = localStorage.getItem('biofert_orders');
+            if (!existingOrders) {
+                const sampleOrders = [
+                    {
+                        id: 1001,
+                        date: '12/06/2026',
+                        client: 'Moussa Diallo',
+                        phone: '+221 77 123 45 67',
+                        items: [{name: 'Engrais Organique 10kg', price: 3500, quantity: 2}],
+                        total: 7000,
+                        status: 'Complétée'
+                    },
+                    {
+                        id: 1002,
+                        date: '11/06/2026',
+                        client: 'Aissatou Sow',
+                        phone: '+221 77 234 56 78',
+                        items: [{name: 'Engrais Organique 25kg', price: 8000, quantity: 1}],
+                        total: 8000,
+                        status: 'Complétée'
+                    },
+                    {
+                        id: 1003,
+                        date: '10/06/2026',
+                        client: 'Amadou Ba',
+                        phone: '+221 77 345 67 89',
+                        items: [{name: 'Engrais Organique 50kg', price: 15000, quantity: 1}],
+                        total: 15000,
+                        status: 'En attente'
+                    },
+                    {
+                        id: 1004,
+                        date: '09/06/2026',
+                        client: 'Fatou Ndiaye',
+                        phone: '+221 77 456 78 90',
+                        items: [{name: 'Engrais Organique 10kg', price: 3500, quantity: 3}],
+                        total: 10500,
+                        status: 'Complétée'
+                    },
+                    {
+                        id: 1005,
+                        date: '08/06/2026',
+                        client: 'Cheikh Sene',
+                        phone: '+221 77 567 89 01',
+                        items: [{name: 'Engrais Organique 25kg', price: 8000, quantity: 2}],
+                        total: 16000,
+                        status: 'En attente'
+                    },
+                    {
+                        id: 1006,
+                        date: '07/06/2026',
+                        client: 'Oumou Traore',
+                        phone: '+221 77 678 90 12',
+                        items: [{name: 'Engrais Organique 10kg', price: 3500, quantity: 1}, {name: 'Engrais Organique 50kg', price: 15000, quantity: 1}],
+                        total: 18500,
+                        status: 'Complétée'
+                    },
+                    {
+                        id: 1007,
+                        date: '06/06/2026',
+                        client: 'Ibrahima Sy',
+                        phone: '+221 77 789 01 23',
+                        items: [{name: 'Engrais Organique 25kg', price: 8000, quantity: 1}],
+                        total: 8000,
+                        status: 'Complétée'
+                    },
+                    {
+                        id: 1008,
+                        date: '05/06/2026',
+                        client: 'Mariama Fall',
+                        phone: '+221 77 890 12 34',
+                        items: [{name: 'Engrais Organique 10kg', price: 3500, quantity: 4}],
+                        total: 14000,
+                        status: 'En attente'
+                    }
+                ];
+                localStorage.setItem('biofert_orders', JSON.stringify(sampleOrders));
+            }
+        }
+
+        function isLoggedIn() {
+            return localStorage.getItem('biofert_admin_logged') === 'true';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                localStorage.setItem('biofert_admin_logged', 'true');
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('dashboard').style.display = 'flex';
+                loadDashboard();
+            } else {
+                document.getElementById('loginError').textContent = 'Identifiants invalides';
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('biofert_admin_logged');
+            document.getElementById('loginContainer').classList.remove('hidden');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('adminUsername').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            if (tab === 'dashboard') {
+                document.getElementById('dashboardSection').classList.add('active');
+                document.getElementById('pageTitle').textContent = 'Tableau de bord';
+                loadDashboard();
+                event.target.classList.add('active');
+            } else if (tab === 'orders') {
+                document.getElementById('ordersSection').classList.add('active');
+                document.getElementById('pageTitle').textContent = 'Gestion des Commandes';
+                loadOrders();
+                event.target.classList.add('active');
+            } else if (tab === 'products') {
+                document.getElementById('productsSection').classList.add('active');
+                document.getElementById('pageTitle').textContent = 'Gestion des Produits';
+                loadProducts();
+                event.target.classList.add('active');
+            }
+        }
+
+        function loadDashboard() {
+            const orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
+            
+            const totalOrders = orders.length;
+            const pendingOrders = orders.filter(o => o.status === 'En attente').length;
+            const completedOrders = orders.filter(o => o.status === 'Complétée').length;
+            const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('pendingOrders').textContent = pendingOrders;
+            document.getElementById('completedOrders').textContent = completedOrders;
+            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString('fr-FR') + ' F';
+
+            createCharts(orders);
+
+            const recent = orders.slice(-3).reverse().map(order => `
+                <div style="background: var(--light-green); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <div>
+                            <strong>Commande #${order.id}</strong> - ${order.date}
+                            <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 0.3rem;">
+                                Client: <strong>${order.client}</strong> | ${order.phone}
+                            </p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-weight: bold; color: var(--primary-green); font-size: 1.3rem;">${order.total.toLocaleString('fr-FR')} F</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.9rem; color: var(--text-dark); padding-top: 0.5rem; border-top: 1px solid rgba(45,142,95,0.2);">
+                        ${order.items.map(i => `${i.name} x${i.quantity} - ${(i.price * i.quantity).toLocaleString('fr-FR')} F`).join('<br>')}
+                    </div>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="status-badge ${order.status === 'En attente' ? 'pending' : order.status === 'Complétée' ? 'completed' : 'cancelled'}">
+                            ${order.status}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('recentOrders').innerHTML = recent || '<p style="color: var(--text-light); text-align: center; padding: 2rem;">Aucune commande</p>';
+        }
+
+        function createCharts(orders) {
+            const monthlyOrders = { 'Jan': 5, 'Fev': 8, 'Mar': 12, 'Avr': 10, 'Mai': 15, 'Juin': orders.length };
+            
+            if (ordersChartInstance) ordersChartInstance.destroy();
+            const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+            ordersChartInstance = new Chart(ordersCtx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(monthlyOrders),
+                    datasets: [{
+                        label: 'Nombre de commandes',
+                        data: Object.values(monthlyOrders),
+                        borderColor: '#2d8e5f',
+                        backgroundColor: 'rgba(45, 142, 95, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#2d8e5f',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, border: { display: false } },
+                        x: { border: { display: false } }
+                    }
+                }
+            });
+
+            const productRevenue = { '10kg': 0, '25kg': 0, '50kg': 0 };
+            orders.forEach(order => {
+                order.items.forEach(item => {
+                    if (item.name.includes('10kg')) productRevenue['10kg'] += item.price * item.quantity;
+                    else if (item.name.includes('25kg')) productRevenue['25kg'] += item.price * item.quantity;
+                    else if (item.name.includes('50kg')) productRevenue['50kg'] += item.price * item.quantity;
+                });
+            });
+
+            if (revenueChartInstance) revenueChartInstance.destroy();
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            revenueChartInstance = new Chart(revenueCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(productRevenue),
+                    datasets: [{
+                        data: Object.values(productRevenue),
+                        backgroundColor: ['#2d8e5f', '#3ba876', '#f4c430'],
+                        borderColor: ['#fff', '#fff', '#fff'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            const statusData = {
+                'En attente': orders.filter(o => o.status === 'En attente').length,
+                'Complétée': orders.filter(o => o.status === 'Complétée').length,
+                'Annulée': orders.filter(o => o.status === 'Annulée').length
+            };
+
+            if (statusChartInstance) statusChartInstance.destroy();
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            statusChartInstance = new Chart(statusCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(statusData),
+                    datasets: [{
+                        label: 'Commandes',
+                        data: Object.values(statusData),
+                        backgroundColor: ['#ff9800', '#4caf50', '#f44336'],
+                        borderRadius: 5,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, border: { display: false } },
+                        x: { border: { display: false } }
+                    }
+                }
+            });
+
+            const formatData = { '10kg': 0, '25kg': 0, '50kg': 0 };
+            orders.forEach(order => {
+                order.items.forEach(item => {
+                    if (item.name.includes('10kg')) formatData['10kg'] += item.quantity;
+                    else if (item.name.includes('25kg')) formatData['25kg'] += item.quantity;
+                    else if (item.name.includes('50kg')) formatData['50kg'] += item.quantity;
+                });
+            });
+
+            if (formatChartInstance) formatChartInstance.destroy();
+            const formatCtx = document.getElementById('formatChart').getContext('2d');
+            formatChartInstance = new Chart(formatCtx, {
+                type: 'radar',
+                data: {
+                    labels: Object.keys(formatData),
+                    datasets: [{
+                        label: 'Ventes',
+                        data: Object.values(formatData),
+                        borderColor: '#2d8e5f',
+                        backgroundColor: 'rgba(45, 142, 95, 0.2)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#2d8e5f'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { r: { beginAtZero: true, border: { display: false } } }
+                }
+            });
+        }
+
+        function loadOrders() {
+            const orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
+            const ordersBody = document.getElementById('ordersBody');
+            const noOrders = document.getElementById('noOrders');
+
+            if (orders.length === 0) {
+                ordersBody.innerHTML = '';
+                noOrders.style.display = 'block';
+                return;
+            }
+
+            noOrders.style.display = 'none';
+            ordersBody.innerHTML = orders.map((order, index) => `
+                <tr>
+                    <td><strong>#${order.id}</strong></td>
+                    <td>${order.date}</td>
+                    <td><strong>${order.client}</strong><br><small>${order.phone}</small></td>
+                    <td>${order.items.map(i => `${i.name.replace('Engrais Organique ', '')} x${i.quantity}`).join(', ')}</td>
+                    <td style="font-weight: bold; color: var(--primary-green);">${order.total.toLocaleString('fr-FR')} F</td>
+                    <td><span class="status-badge ${order.status === 'En attente' ? 'pending' : 'completed'}">${order.status}</span></td>
+                    <td>
+                        ${order.status === 'En attente' ? `<button class="action-btn btn-primary" onclick="updateOrderStatus(${index}, 'Complétée')">✓ Complétée</button>` : ''}
+                        <button class="action-btn btn-danger" onclick="deleteOrder(${index})">✕ Supp</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterOrders() {
+            const orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
+            const statusFilter = document.getElementById('statusFilter').value;
+            const searchTerm = document.getElementById('searchOrder').value.toLowerCase();
+
+            const filtered = orders.filter(o => 
+                (!statusFilter || o.status === statusFilter) &&
+                (o.id.toString().includes(searchTerm) || o.client.toLowerCase().includes(searchTerm))
+            );
+
+            const ordersBody = document.getElementById('ordersBody');
+            ordersBody.innerHTML = filtered.map((order, index) => `
+                <tr>
+                    <td><strong>#${order.id}</strong></td>
+                    <td>${order.date}</td>
+                    <td><strong>${order.client}</strong><br><small>${order.phone}</small></td>
+                    <td>${order.items.map(i => `${i.name.replace('Engrais Organique ', '')} x${i.quantity}`).join(', ')}</td>
+                    <td style="font-weight: bold; color: var(--primary-green);">${order.total.toLocaleString('fr-FR')} F</td>
+                    <td><span class="status-badge ${order.status === 'En attente' ? 'pending' : 'completed'}">${order.status}</span></td>
+                    <td>
+                        ${order.status === 'En attente' ? `<button class="action-btn btn-primary" onclick="updateOrderStatus(${orders.indexOf(order)}, 'Complétée')">✓</button>` : ''}
+                        <button class="action-btn btn-danger" onclick="deleteOrder(${orders.indexOf(order)})">✕</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateOrderStatus(index, status) {
+            let orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
+            orders[index].status = status;
+            localStorage.setItem('biofert_orders', JSON.stringify(orders));
+            loadOrders();
+            loadDashboard();
+        }
+
+        function deleteOrder(index) {
+            if (confirm('Êtes-vous sûr ?')) {
+                let orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
+                orders.splice(index, 1);
+                localStorage.setItem('biofert_orders', JSON.stringify(orders));
+                loadOrders();
+                loadDashboard();
+            }
+        }
+
+        function refreshOrders() {
+            loadOrders();
+            alert('Actualisé');
+        }
+
+        function loadProducts() {
+            const orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
+            const productStats = { '10kg': { count: 0, revenue: 0 }, '25kg': { count: 0, revenue: 0 }, '50kg': { count: 0, revenue: 0 } };
+
+            orders.forEach(order => {
+                order.items.forEach(item => {
+                    if (item.name.includes('10kg')) {
+                        productStats['10kg'].count += item.quantity;
+                        productStats['10kg'].revenue += item.price * item.quantity;
+                    } else if (item.name.includes('25kg')) {
+                        productStats['25kg'].count += item.quantity;
+                        productStats['25kg'].revenue += item.price * item.quantity;
+                    } else if (item.name.includes('50kg')) {
+                        productStats['50kg'].count += item.quantity;
+                        productStats['50kg'].revenue += item.price * item.quantity;
+                    }
+                });
+            });
+
+            const statsHTML = Object.entries(productStats).map(([size, data]) => `
+                <div style="padding: 1.5rem; border-bottom: 1px solid rgba(45,142,95,0.2); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="font-size: 1.1rem;">Engrais ${size}</strong>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 0.3rem;">
+                            <i class="fas fa-box"></i> ${data.count} unités vendues
+                        </p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: bold; color: var(--primary-green); font-size: 1.4rem;">
+                            ${data.revenue.toLocaleString('fr-FR')} F
+                        </div>
+                        <p style="color: var(--text-light); font-size: 0.85rem;">Revenu</p>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('productStats').innerHTML = statsHTML || '<p style="text-align: center; padding: 2rem;">Aucune vente</p>';
+        }
+
+        window.addEventListener('load', function() {
+            initializeSampleData();
+            if (isLoggedIn()) {
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('dashboard').style.display = 'flex';
+                loadDashboard();
+            }
+        });
+    </script>
+</body>
+</html>
