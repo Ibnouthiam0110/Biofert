@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOFERT - Engrais Organiques Durables</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Couleurs BIOFERT */
+        :root {
+            --primary-green: #2d8e5f;
+            --secondary-green: #3ba876;
+            --light-green: #e8f5f0;
+            --dark-green: #1d5c3f;
+            --accent-yellow: #f4c430;
+            --accent-orange: #ff9800;
+            --text-dark: #1a1a1a;
+            --text-light: #555;
+            --bg-light: #f9f9f9;
+            --border-color: #e0e0e0;
+        }
+
+        /* Header/Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-yellow);
+            color: var(--text-dark);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent-yellow);
+            color: var(--text-dark);
+        }
+
+        .btn-primary:hover {
+            background: #f0b800;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(244, 196, 48, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-green);
+            transform: translateY(-3px);
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-text h2 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-box {
+            background: var(--light-green);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .feature-box i {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-box h3 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-box p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(45, 142, 95, 0.2);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 5rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(45, 142, 95, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, var(--light-green) 0%, #d4f0e6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image.empty {
+            background: linear-gradient(135deg, var(--light-green) 0%, #d4f0e6 100%);
+            color: var(--primary-green);
+        }
+
+        .product-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .product-specs {
+            background: var(--light-green);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .spec-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .spec-label {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .spec-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        .price-sub {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .btn-small {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .btn-add-cart {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .btn-add-cart:hover {
+            background: var(--dark-green);
+        }
+
+        .btn-details {
+            background: var(--light-green);
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+        }
+
+        .btn-details:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            border-top: 4px solid var(--primary-green);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .benefit-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            opacity: 0.95;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            margin-top: 0.3rem;
+        }
+
+        .contact-item-text h3 {
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-item-text p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--accent-yellow);
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #f0b800;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(244, 196, 48, 0.4);
+        }
+
+        .form-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .form-status.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+            display: block;
+        }
+
+        .form-status.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-green);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .cart-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .cart-content {
+            background: white;
+            height: 100%;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .cart-header {
+            background: var(--primary-green);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .cart-item-price {
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            align-items: center;
+        }
+
+        .qty-btn {
+            width: 25px;
+            height: 25px;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .qty-btn:hover {
+            background: var(--light-green);
+        }
+
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .btn-checkout {
+            width: 100%;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            nav {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-img">
+                    <img id="logoImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232d8e5f'/%3E%3Cpath d='M 50 30 Q 35 45 50 60 Q 65 45 50 30' fill='white'/%3E%3C/svg%3E" alt="BIOFERT">
+                </div>
+                BIOFERT
+            </a>
+            <nav>
+                <a href="#about">À propos</a>
+                <a href="#products">Produits</a>
+                <a href="#benefits">Avantages</a>
+                <a href="#contact">Contact</a>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nourrissez la Terre, Récoltez l'Avenir</h1>
+            <p>Engrais organiques 100% naturels à base de déchets de poisson et de volaille. Durables, efficaces, respectueux de l'environnement.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('products')">Découvrir nos produits</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('about')">En savoir plus</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2 class="section-title">Pourquoi BIOFERT ?</h2>
+        <p class="section-subtitle">Une approche innovante et durable de la fertilisation agricole</p>
+        
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>L'agriculture de demain commence aujourd'hui</h2>
+                <p>BIOFERT est spécialisée dans la production et la commercialisation d'engrais organiques à base de déchets de poisson et de volaille. Notre mission est de contribuer au développement d'une agriculture durable en proposant aux agriculteurs des solutions de fertilisation naturelles, efficaces et respectueuses de l'environnement.</p>
+                <p>Nos produits sont formulés pour améliorer la structure du sol, stimuler la croissance des plantes et augmenter les rendements. 100% naturels, sans produits chimiques, ils garantissent des cultures saines et nutritives.</p>
+                
+                <div class="about-features">
+                    <div class="feature-box">
+                        <i class="fas fa-leaf"></i>
+                        <h3>100% Naturel</h3>
+                        <p>Sans produits chimiques de synthèse</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-earth-africa"></i>
+                        <h3>Écologique</h3>
+                        <p>Réduit l'empreinte carbone</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Efficace</h3>
+                        <p>Résultats prouvés et durables</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-hands"></i>
+                        <h3>Local</h3>
+                        <p>Produit et fabriqué localement</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" style="width: 100%; border-radius: 15px; background: linear-gradient(135deg, #e8f5f0 0%, #d4f0e6 100%);">
+                    <rect width="400" height="400" fill="none"/>
+                    <!-- Soil layers -->
+                    <rect x="20" y="200" width="360" height="180" fill="#8B7355"/>
+                    <rect x="20" y="240" width="360" height="140" fill="#6B5344"/>
+                    <!-- Plant -->
+                    <line x1="200" y1="200" x2="200" y2="80" stroke="#2d8e5f" stroke-width="8"/>
+                    <!-- Leaves -->
+                    <ellipse cx="160" cy="100" rx="25" ry="40" fill="#3ba876" transform="rotate(-30 160 100)"/>
+                    <ellipse cx="240" cy="100" rx="25" ry="40" fill="#3ba876" transform="rotate(30 240 100)"/>
+                    <ellipse cx="200" cy="70" rx="20" ry="35" fill="#3ba876"/>
+                    <!-- Roots -->
+                    <path d="M 200 200 Q 150 250 120 300" stroke="#6B5344" stroke-width="4" fill="none"/>
+                    <path d="M 200 200 Q 250 250 280 300" stroke="#6B5344" stroke-width="4" fill="none"/>
+                    <path d="M 200 200 Q 180 280 160 350" stroke="#6B5344" stroke-width="4" fill="none"/>
+                    <path d="M 200 200 Q 220 280 240 350" stroke="#6B5344" stroke-width="4" fill="none"/>
+                    <!-- Nutrients -->
+                    <circle cx="100" cy="280" r="8" fill="#ff9800" opacity="0.7"/>
+                    <circle cx="300" cy="300" r="8" fill="#ff9800" opacity="0.7"/>
+                    <circle cx="150" cy="320" r="8" fill="#ff9800" opacity="0.7"/>
+                    <circle cx="250" cy="280" r="8" fill="#ff9800" opacity="0.7"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="products-container">
+            <h2 class="section-title">Nos Produits</h2>
+            <p class="section-subtitle">Des formulations spécialisées pour chaque besoin agricole</p>
+            
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image" id="prod1-img">
+                        <div class="empty"><i class="fas fa-leaf"></i></div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Engrais Légumes</h3>
+                        <p class="product-description">Formule optimisée pour les légumes et cultures maraîchères. Riche en éléments nutritifs essentiels.</p>
+                        <div class="product-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Format:</span>
+                                <span class="spec-value">10 - 50 kg</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Composition:</span>
+                                <span class="spec-value">Poisson & Volaille</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Certif.:</span>
+                                <span class="spec-value">100% Organique</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <div>
+                                <div class="price">3 500 - 15 000</div>
+                                <div class="price-sub">FCFA</div>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-add-cart btn-small" onclick="addToCart('Engrais Légumes', 3500)">Ajouter</button>
+                            <button class="btn btn-details btn-small" onclick="showProductDetails('Engrais Légumes')">Détails</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image" id="prod2-img">
+                        <div class="empty"><i class="fas fa-leaf"></i></div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Engrais Fruits</h3>
+                        <p class="product-description">Composition spécialisée pour les arbres fruitiers et vignes. Améliore la qualité et la saveur.</p>
+                        <div class="product-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Format:</span>
+                                <span class="spec-value">10 - 50 kg</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Composition:</span>
+                                <span class="spec-value">Poisson & Volaille</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Certif.:</span>
+                                <span class="spec-value">100% Organique</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <div>
+                                <div class="price">3 500 - 15 000</div>
+                                <div class="price-sub">FCFA</div>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-add-cart btn-small" onclick="addToCart('Engrais Fruits', 3500)">Ajouter</button>
+                            <button class="btn btn-details btn-small" onclick="showProductDetails('Engrais Fruits')">Détails</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image" id="prod3-img">
+                        <div class="empty"><i class="fas fa-leaf"></i></div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">Engrais Général</h3>
+                        <p class="product-description">Formule polyvalente adaptée à tous types de cultures et plantations. Polyvalent et efficace.</p>
+                        <div class="product-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Format:</span>
+                                <span class="spec-value">10 - 50 kg</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Composition:</span>
+                                <span class="spec-value">Poisson & Volaille</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Certif.:</span>
+                                <span class="spec-value">100% Organique</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <div>
+                                <div class="price">3 500 - 15 000</div>
+                                <div class="price-sub">FCFA</div>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-add-cart btn-small" onclick="addToCart('Engrais Général', 3500)">Ajouter</button>
+                            <button class="btn btn-details btn-small" onclick="showProductDetails('Engrais Général')">Détails</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <h2 class="section-title">Avantages de BIOFERT</h2>
+        <p class="section-subtitle">Pourquoi choisir nos engrais organiques</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <i class="fas fa-check-circle benefit-icon"></i>
+                <h3>Améliore la structure du sol</h3>
+                <p>Notre formule enrichit le sol en matière organique et améliore sa structure pour une meilleure rétention d'eau.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-plant-wilt benefit-icon"></i>
+                <h3>Stimule la croissance</h3>
+                <p>Les nutriments naturels favorisent une croissance rapide et robuste des plantes et des rendements accrus.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-seedling benefit-icon"></i>
+                <h3>Augmente les rendements</h3>
+                <p>Les récoltes sont plus abondantes et de meilleure qualité grâce à une nutrition optimale et équilibrée.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-leaf benefit-icon"></i>
+                <h3>Zéro résidu chimique</h3>
+                <p>Produit 100% naturel, sans pesticides ni produits chimiques. Cultiver en toute confiance et sécurité.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-globe benefit-icon"></i>
+                <h3>Respectueux de l'environnement</h3>
+                <p>Réutilise les déchets organiques et réduit l'empreinte carbone. Agriculture durable et responsable.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-handshake benefit-icon"></i>
+                <h3>Support local</h3>
+                <p>Fabriqué localement par des experts en agriculture. Soutient l'économie locale et l'emploi régional.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <h2 class="section-title" style="color: white; margin-bottom: 1rem;">Nous Contacter</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p>Vous avez des questions sur nos produits ? Besoin d'un conseil pour votre exploitation ? N'hésitez pas à nous contacter. Notre équipe est à votre écoute pour vous fournir une assistance personnalisée et des solutions adaptées à vos besoins.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div class="contact-item-text">
+                                <h3>Téléphone</h3>
+                                <p>+221 779 688 096</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div class="contact-item-text">
+                                <h3>Email</h3>
+                                <p>BIOFERT@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-item-text">
+                                <h3>Localisation</h3>
+                                <p>Dakar, Sénégal</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nom complet</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone (optionnel)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Envoyer le Message</button>
+                    <div class="form-status" id="formStatus"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>BIOFERT</h3>
+                <p>Spécialiste en engrais organiques naturels. Contribuant au développement durable de l'agriculture africaine.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Produits</h3>
+                <p><a href="#products">Engrais Légumes</a></p>
+                <p><a href="#products">Engrais Fruits</a></p>
+                <p><a href="#products">Engrais Général</a></p>
+                <p><a href="#products">Tous les produits</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Entreprise</h3>
+                <p><a href="#about">À propos</a></p>
+                <p><a href="#benefits">Avantages</a></p>
+                <p><a href="#contact">Contact</a></p>
+                <p><a href="#">Mentions légales</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> +221 779 688 096</p>
+                <p><i class="fas fa-envelope"></i> BIOFERT@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Dakar, Sénégal</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 BIOFERT - Tous droits réservés. Engagement pour une agriculture durable.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Mon Panier</h2>
+                <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <p>Votre panier est vide</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">0 FCFA</span>
+                </div>
+                <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()">Passer la commande</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cart management
+        let cart = [];
+
+        function addToCart(productName, basePrice) {
+            const existingItem = cart.find(item => item.name === productName);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: basePrice,
+                    quantity: 1
+                });
+            }
+            updateCart();
+            showNotification(`${productName} ajouté au panier`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                removeFromCart(index);
+            } else {
+                updateCart();
+            }
+        }
+
+        function updateCart() {
+            const cartCount = document.querySelector('.cart-count');
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<div class="empty-cart"><p>Votre panier est vide</p></div>';
+                cartTotal.textContent = '0 FCFA';
+                return;
+            }
+
+            let total = 0;
+            cartItemsDiv.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price.toLocaleString('fr-FR')} FCFA</div>
+                            <div class="cart-item-qty">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                                <span>${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 1.2rem;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            cartTotal.textContent = total.toLocaleString('fr-FR') + ' FCFA';
+        }
+
+        function toggleCart() {
+            document.getElementById('cartModal').classList.toggle('active');
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide');
+                return;
+            }
+            const cartSummary = cart.map(item => `${item.name} x${item.quantity}`).join(', ');
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Commande:\n${cartSummary}\n\nTotal: ${total.toLocaleString('fr-FR')} FCFA\n\nVeuillez nous contacter pour finaliser votre commande.`);
+            toggleCart();
+        }
+
+        // Navigation
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showProductDetails(productName) {
+            alert(`Détails du produit: ${productName}\n\nNos équipes vous contacteront pour plus d'informations et une commande en gros.`);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #2d8e5f;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(45, 142, 95, 0.3);
+                z-index: 3000;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Contact form with Web3Forms
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formStatus = document.getElementById('formStatus');
+            
+            const formData = new FormData(contactForm);
+            formData.append('access_key', 'YOUR_WEB3FORMS_KEY'); // À remplacer par votre clé Web3Forms
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = '✓ Message envoyé avec succès! Nous vous recontacterons sous peu.';
+                    contactForm.reset();
+                } else {
+                    throw new Error('Erreur lors de l\'envoi');
+                }
+            } catch (error) {
+                formStatus.className = 'form-status error';
+                formStatus.textContent = '✗ Erreur lors de l\'envoi. Veuillez réessayer.';
+            }
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Initialize
+        updateCart();
+
+        // Style for animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(400px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
