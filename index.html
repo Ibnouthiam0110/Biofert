@@ -3,54 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIOFERT - Engrais Organiques Durables</title>
+    <title>BIOFERT — Engrais Organiques Durables</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --ink: #0a0e0a;
+            --ink-soft: #1c241d;
+            --white: #ffffff;
+            --green: #4ade80;
+            --green-dark: #22c55e;
+            --green-deep: #14532d;
+            --green-deep-2: #0f3d21;
+            --mint: #f0fdf4;
+            --mint-deep: #dcf5e4;
+            --lime: #d4ff3f;
+            --gray: #6b7280;
+            --gray-light: #9ca3af;
+            --line: #e7ebe8;
+            --display: 'Space Grotesk', sans-serif;
+            --body: 'Inter', sans-serif;
+            --mono: 'Space Mono', monospace;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: var(--body);
             line-height: 1.6;
-            color: #333;
+            color: var(--ink);
             overflow-x: hidden;
+            background: var(--white);
         }
 
-        /* Couleurs BIOFERT */
-        :root {
-            --primary-green: #2d8e5f;
-            --secondary-green: #3ba876;
-            --light-green: #e8f5f0;
-            --dark-green: #1d5c3f;
-            --accent-yellow: #f4c430;
-            --accent-orange: #ff9800;
-            --text-dark: #1a1a1a;
-            --text-light: #555;
-            --bg-light: #f9f9f9;
-            --border-color: #e0e0e0;
+        h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; }
+
+        ::selection { background: var(--lime); color: var(--ink); }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(.22,.61,.36,1), transform 0.7s cubic-bezier(.22,.61,.36,1);
+        }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+        .reveal-stagger > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(.22,.61,.36,1), transform 0.6s cubic-bezier(.22,.61,.36,1);
+        }
+        .reveal-stagger.in-view > * { opacity: 1; transform: translateY(0); }
+        .reveal-stagger.in-view > *:nth-child(1) { transition-delay: 0s; }
+        .reveal-stagger.in-view > *:nth-child(2) { transition-delay: 0.08s; }
+        .reveal-stagger.in-view > *:nth-child(3) { transition-delay: 0.16s; }
+        .reveal-stagger.in-view > *:nth-child(4) { transition-delay: 0.24s; }
+        .reveal-stagger.in-view > *:nth-child(5) { transition-delay: 0.32s; }
+        .reveal-stagger.in-view > *:nth-child(6) { transition-delay: 0.4s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal, .reveal-stagger > * { transition: none; opacity: 1; transform: none; }
+            * { animation: none !important; }
         }
 
-        /* Header/Navigation */
+        /* ===== Header ===== */
         header {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            color: white;
-            padding: 1rem 0;
+            background: rgba(240,253,244,0.88);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            border-bottom: 1px solid var(--mint-deep);
+            padding: 0.9rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
         }
+        header.scrolled { box-shadow: 0 8px 24px rgba(10,14,10,0.06); }
 
         .header-container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -61,479 +93,697 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            font-size: 1.8rem;
-            font-weight: 700;
+            gap: 0.85rem;
             text-decoration: none;
-            color: white;
+            color: var(--ink);
         }
 
         .logo-img {
-            width: 90px;
-            height: 90px;
-            border-radius: 35%;
-            background: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            background: var(--green);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            flex-shrink: 0;
         }
+        .logo-img img { width: 100%; height: 100%; object-fit: cover; }
 
-        .logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .logo span {
+            font-family: var(--display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
+        .logo .dot { color: var(--green); }
 
         nav {
             display: flex;
-            gap: 2rem;
+            gap: 2.2rem;
             align-items: center;
         }
 
         nav a {
-            color: white;
+            color: var(--ink-soft);
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.3s;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 0.3rem 0;
+            transition: color 0.25s;
         }
+        nav a:not(.nav-cta-link)::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--green);
+            transition: width 0.3s cubic-bezier(.22,.61,.36,1);
+        }
+        nav a:not(.nav-cta-link):hover::after { width: 100%; }
+        nav a:hover { color: var(--ink); }
 
-        nav a:hover {
-            opacity: 0.8;
+        .nav-cta-link {
+            background: var(--green);
+            color: var(--white) !important;
+            padding: 0.55rem 1.2rem !important;
+            border-radius: 100px;
+            font-size: 0.85rem !important;
+            transition: background 0.25s, transform 0.25s;
         }
+        .nav-cta-link:hover { background: var(--green-dark); transform: translateY(-2px); }
 
         .cart-icon {
             position: relative;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            transition: color 0.25s;
         }
+        .cart-icon:hover { color: var(--green-dark); }
 
         .cart-count {
             position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--accent-yellow);
-            color: var(--text-dark);
+            top: -9px;
+            right: -10px;
+            background: var(--lime);
+            color: var(--ink);
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.68rem;
             font-weight: 700;
+            font-family: var(--mono);
         }
 
         .menu-toggle {
             display: none;
             background: none;
             border: none;
-            color: white;
-            font-size: 1.5rem;
+            color: var(--ink);
+            font-size: 1.4rem;
             cursor: pointer;
         }
 
-        /* Hero Section */
+        /* ===== Hero ===== */
         .hero {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            color: white;
-            padding: 6rem 2rem;
-            text-align: center;
             position: relative;
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
             overflow: hidden;
+            background: var(--green-deep-2);
         }
 
-        .hero::before {
-            content: '';
+        .hero-bg {
             position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
+            inset: 0;
             z-index: 0;
         }
-
-        .hero::after {
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.08);
+            animation: heroZoomOut 1.8s cubic-bezier(.22,.61,.36,1) forwards;
+        }
+        @keyframes heroZoomOut {
+            from { transform: scale(1.08); }
+            to { transform: scale(1); }
+        }
+        .hero-bg::after {
             content: '';
             position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 400px;
-            height: 400px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 50%;
-            z-index: 0;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(10,20,12,0.55) 0%, rgba(10,20,12,0.35) 45%, rgba(10,20,12,0.78) 100%);
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+        .hero-text {
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--lime);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.6rem;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .hero-load-pending .hero-eyebrow { opacity: 0; transform: translateY(18px); transition-delay: 0.1s; }
+        .hero-eyebrow::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--lime);
+            box-shadow: 0 0 0 0 rgba(212,255,63,0.7);
+            animation: pulseDot 2.2s infinite;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+            font-size: clamp(2.6rem, 5.2vw, 4.4rem);
             font-weight: 700;
-            letter-spacing: -1px;
+            line-height: 1.05;
+            color: var(--white);
+            margin-bottom: 1.4rem;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
+        .hero-load-pending .hero h1 { opacity: 0; transform: translateY(18px); transition-delay: 0.2s; }
+        .hero h1 .accent { color: var(--lime); position: relative; }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-            line-height: 1.8;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 520px;
+            margin-bottom: 2.2rem;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
+        .hero-load-pending .hero p { opacity: 0; transform: translateY(18px); transition-delay: 0.3s; }
 
         .cta-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: center;
             flex-wrap: wrap;
+            justify-content: center;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .hero-load-pending .cta-buttons { opacity: 0; transform: translateY(18px); transition-delay: 0.4s; }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.6rem;
+            margin-top: 3rem;
+            padding-top: 1.8rem;
+            border-top: 1px solid rgba(255,255,255,0.18);
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .hero-load-pending .hero-stats { opacity: 0; transform: translateY(18px); transition-delay: 0.5s; }
+        .hero-stat-num {
+            font-family: var(--display);
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+        .hero-stat-label {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.65);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(212,255,63,0.6); }
+            70% { box-shadow: 0 0 0 7px rgba(212,255,63,0); }
+            100% { box-shadow: 0 0 0 0 rgba(212,255,63,0); }
+        }
+
+        .hero-tag {
+            position: absolute;
+            bottom: 2.2rem;
+            right: 2.2rem;
+            background: rgba(10,14,10,0.6);
+            backdrop-filter: blur(8px);
+            color: var(--white);
+            padding: 0.85rem 1.2rem;
+            border-radius: 14px;
+            font-family: var(--mono);
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 2;
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .hero-load-pending .hero-tag { opacity: 0; transform: translateY(18px); transition-delay: 0.7s; }
+        .hero-tag i { color: var(--lime); }
+
+        /* ===== Buttons ===== */
         .btn {
-            padding: 0.8rem 2rem;
+            padding: 0.9rem 1.8rem;
             border: none;
-            border-radius: 50px;
-            font-size: 1rem;
+            border-radius: 100px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(.22,.61,.36,1);
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--body);
         }
-
         .btn-primary {
-            background: var(--accent-yellow);
-            color: var(--text-dark);
+            background: var(--green);
+            color: var(--white);
         }
-
         .btn-primary:hover {
-            background: #f0b800;
+            background: var(--green-dark);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(244, 196, 48, 0.3);
+            box-shadow: 0 10px 24px rgba(22,163,74,0.32);
         }
-
         .btn-secondary {
-            background: white;
-            color: var(--primary-green);
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            backdrop-filter: blur(6px);
         }
-
         .btn-secondary:hover {
-            background: var(--light-green);
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.6);
             transform: translateY(-3px);
         }
 
-        /* About Section */
-        .about {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--primary-green);
-            margin-bottom: 1rem;
+        /* ===== Section shells ===== */
+        .section-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--green-dark);
             text-align: center;
+            display: block;
+            margin-bottom: 0.9rem;
         }
-
+        .section-title {
+            font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+            color: var(--ink);
+            margin-bottom: 0.9rem;
+            text-align: center;
+            font-weight: 700;
+        }
         .section-subtitle {
             text-align: center;
-            color: var(--text-light);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            max-width: 600px;
+            color: var(--gray);
+            font-size: 1.05rem;
+            margin-bottom: 3.5rem;
+            max-width: 560px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        /* ===== About ===== */
+        .about {
+            padding: 7rem 2rem;
+            max-width: 1240px;
+            margin: 0 auto;
         }
 
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 0;
         }
 
         .about-text h2 {
-            font-size: 2rem;
-            color: var(--primary-green);
+            font-size: 2.1rem;
+            color: var(--ink);
             margin-bottom: 1.5rem;
+            font-weight: 700;
         }
 
         .about-text p {
-            color: var(--text-light);
-            margin-bottom: 1rem;
-            line-height: 1.8;
+            color: var(--gray);
+            margin-bottom: 1.1rem;
+            line-height: 1.85;
         }
 
         .about-features {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 1.2rem;
+            margin-top: 2.2rem;
         }
 
         .feature-box {
-            background: var(--light-green);
+            background: var(--mint);
             padding: 1.5rem;
-            border-radius: 10px;
-            border-left: 4px solid var(--primary-green);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: all 0.35s cubic-bezier(.22,.61,.36,1);
+        }
+        .feature-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--green);
+            box-shadow: 0 14px 28px rgba(22,163,74,0.12);
         }
 
         .feature-box i {
-            color: var(--primary-green);
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            color: var(--green-dark);
+            font-size: 1.5rem;
+            margin-bottom: 0.7rem;
+            display: block;
         }
 
         .feature-box h3 {
-            color: var(--primary-green);
-            margin-bottom: 0.5rem;
+            color: var(--ink);
+            margin-bottom: 0.4rem;
+            font-size: 1.02rem;
+            font-weight: 600;
+            font-family: var(--body);
         }
 
         .feature-box p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin: 0;
+            color: var(--gray);
         }
 
         .about-image {
             position: relative;
+            border-radius: 24px;
+            overflow: hidden;
         }
 
         .about-image img {
             width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(45, 142, 95, 0.2);
+            display: block;
+            border-radius: 24px;
+            transition: transform 0.6s cubic-bezier(.22,.61,.36,1);
+        }
+        .about-image:hover img { transform: scale(1.04); }
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            box-shadow: inset 0 0 0 1px rgba(10,14,10,0.06);
+            pointer-events: none;
         }
 
-        /* Products Section */
+        /* ===== Products ===== */
         .products {
-            padding: 5rem 2rem;
-            background: var(--bg-light);
+            padding: 7rem 2rem;
+            background: linear-gradient(160deg, var(--green-deep) 0%, var(--green-deep-2) 100%);
+            position: relative;
         }
 
         .products-container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
+            position: relative;
         }
+        .products .section-title, .products .section-eyebrow { color: var(--white); }
+        .products .section-eyebrow { color: var(--lime); }
+        .products .section-subtitle { color: rgba(255,255,255,0.55); }
 
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 1.8rem;
+            margin-top: 3.5rem;
         }
 
         .product-card {
-            background: white;
-            border-radius: 15px;
+            background: var(--white);
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(.22,.61,.36,1);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(45, 142, 95, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.35);
         }
 
         .product-image {
             width: 100%;
-            height: 400px;
-            background: linear-gradient(135deg, var(--light-green) 0%, #d4f0e6 100%);
+            height: 280px;
+            background: linear-gradient(135deg, var(--mint) 0%, var(--mint-deep) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
             position: relative;
             overflow: hidden;
+            padding: 1.5rem;
         }
 
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            transition: transform 0.6s cubic-bezier(.22,.61,.36,1);
         }
+        .product-card:hover .product-image img { transform: scale(1.05); }
 
-        .product-image.empty {
-            background: linear-gradient(135deg, var(--light-green) 0%, #d4f0e6 100%);
-            color: var(--primary-green);
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--green-deep);
+            color: var(--lime);
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            padding: 0.35rem 0.7rem;
+            border-radius: 100px;
+            z-index: 2;
+            letter-spacing: 0.04em;
         }
 
         .product-content {
-            padding: 1.5rem;
+            padding: 1.7rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
 
         .product-name {
-            font-size: 1.3rem;
-            color: var(--text-dark);
+            font-size: 1.25rem;
+            color: var(--ink);
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-family: var(--display);
         }
 
         .product-description {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
+            color: var(--gray);
+            font-size: 0.92rem;
+            margin-bottom: 1.2rem;
             flex-grow: 1;
         }
 
         .product-specs {
-            background: var(--light-green);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            background: var(--mint);
+            padding: 1rem 1.1rem;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
         }
 
         .spec-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.55rem;
+            font-size: 0.85rem;
+            font-family: var(--mono);
         }
 
-        .spec-item:last-child {
-            margin-bottom: 0;
-        }
+        .spec-item:last-child { margin-bottom: 0; }
 
         .spec-label {
-            color: var(--primary-green);
-            font-weight: 600;
+            color: var(--green-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
         }
 
         .spec-value {
-            color: var(--text-dark);
+            color: var(--ink);
             font-weight: 500;
         }
 
         .product-price {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+            align-items: baseline;
+            margin-bottom: 1.2rem;
         }
 
         .price {
-            font-size: 1.5rem;
-            color: var(--primary-green);
+            font-size: 1.6rem;
+            color: var(--ink);
             font-weight: 700;
+            font-family: var(--display);
         }
 
         .price-sub {
-            font-size: 0.85rem;
-            color: var(--text-light);
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-family: var(--mono);
         }
 
         .product-actions {
             display: flex;
-            gap: 0.8rem;
+            gap: 0.7rem;
         }
 
         .btn-small {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.9rem;
+            padding: 0.65rem 1.1rem;
+            font-size: 0.88rem;
             flex: 1;
+            justify-content: center;
         }
 
         .btn-add-cart {
-            background: var(--primary-green);
-            color: white;
+            background: var(--green);
+            color: var(--white);
         }
-
-        .btn-add-cart:hover {
-            background: var(--dark-green);
-        }
+        .btn-add-cart:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(22,163,74,0.3); }
 
         .btn-details {
-            background: var(--light-green);
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
+            background: var(--mint);
+            color: var(--green-dark);
+            border: 1px solid var(--mint-deep);
         }
+        .btn-details:hover { background: var(--mint-deep); transform: translateY(-2px); }
 
-        .btn-details:hover {
-            background: var(--primary-green);
-            color: white;
-        }
-
-        /* Benefits Section */
+        /* ===== Benefits ===== */
         .benefits {
-            padding: 5rem 2rem;
-            max-width: 1200px;
+            padding: 7rem 2rem;
+            max-width: 1240px;
             margin: 0 auto;
         }
 
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.6rem;
+            margin-top: 3.5rem;
         }
 
         .benefit-card {
-            text-align: center;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            border-top: 4px solid var(--primary-green);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            padding: 2.1rem;
+            background: var(--white);
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            transition: all 0.35s cubic-bezier(.22,.61,.36,1);
+            position: relative;
+            overflow: hidden;
         }
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--green);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(.22,.61,.36,1);
+        }
+        .benefit-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(10,14,10,0.08);
+            border-color: transparent;
+        }
+        .benefit-card:hover::before { transform: scaleX(1); }
 
         .benefit-icon {
-            font-size: 2.5rem;
-            color: var(--primary-green);
-            margin-bottom: 1rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--mint);
+            color: var(--green-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 1.3rem;
+            transition: all 0.35s;
         }
+        .benefit-card:hover .benefit-icon { background: var(--green-deep); color: var(--lime); }
 
         .benefit-card h3 {
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            color: var(--ink);
+            margin-bottom: 0.6rem;
+            font-size: 1.12rem;
+            font-weight: 600;
+            font-family: var(--body);
         }
 
         .benefit-card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
+            color: var(--gray);
+            font-size: 0.93rem;
         }
 
-        /* Contact Section */
+        /* ===== Contact ===== */
         .contact {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-            color: white;
+            padding: 7rem 2rem;
+            background: var(--mint);
+            color: var(--ink);
+            position: relative;
+            overflow: hidden;
         }
 
         .contact-container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
+            gap: 4rem;
+            align-items: start;
         }
 
+        .contact-info .section-eyebrow { text-align: left; }
         .contact-info h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 1.4rem;
+            color: var(--ink);
+            font-weight: 700;
         }
 
-        .contact-info p {
-            opacity: 0.95;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
+        .contact-info > p {
+            color: var(--gray);
+            line-height: 1.85;
+            margin-bottom: 2rem;
         }
 
         .contact-details {
@@ -544,683 +794,372 @@
 
         .contact-item {
             display: flex;
-            gap: 1rem;
+            gap: 1.1rem;
             align-items: flex-start;
         }
 
-        .contact-item i {
-            font-size: 1.5rem;
-            margin-top: 0.3rem;
+        .contact-item-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-dark);
+            font-size: 1.05rem;
+            flex-shrink: 0;
         }
 
         .contact-item-text h3 {
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: var(--body);
+            color: var(--ink);
         }
 
         .contact-item-text p {
             margin: 0;
-            opacity: 0.9;
-            font-size: 0.95rem;
+            color: var(--gray);
+            font-size: 0.93rem;
         }
 
-        .form-group {
-            margin-bottom: 1rem;
+        .contact-form {
+            background: var(--white);
+            padding: 2.4rem;
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(10,14,10,0.08);
         }
+
+        .form-group { margin-bottom: 1.2rem; }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--ink-soft);
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
+            padding: 0.85rem 1rem;
+            border: 1.5px solid var(--line);
+            border-radius: 10px;
+            font-family: var(--body);
+            font-size: 0.97rem;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            background: var(--white);
+            color: var(--ink);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            border-color: var(--green);
+            box-shadow: 0 0 0 4px rgba(22,163,74,0.12);
         }
 
         .btn-submit {
             width: 100%;
-            padding: 0.8rem;
-            background: var(--accent-yellow);
-            color: var(--text-dark);
+            padding: 0.95rem;
+            background: var(--green);
+            color: var(--white);
             font-weight: 600;
             cursor: pointer;
             border: none;
-            border-radius: 8px;
-            transition: all 0.3s;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(.22,.61,.36,1);
+            font-size: 0.97rem;
+            font-family: var(--body);
         }
 
         .btn-submit:hover {
-            background: #f0b800;
+            background: var(--green-dark);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(244, 196, 48, 0.4);
+            box-shadow: 0 12px 24px rgba(22,163,74,0.35);
         }
 
         .form-status {
             margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 0.9rem;
+            border-radius: 10px;
             text-align: center;
             display: none;
+            font-size: 0.9rem;
         }
 
-        .form-status.success {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-            display: block;
-        }
+        .form-status.success { background: rgba(22,163,74,0.1); color: var(--green-dark); display: block; }
+        .form-status.error { background: rgba(244,67,54,0.1); color: #d32f2f; display: block; }
 
-        .form-status.error {
-            background: rgba(244, 67, 54, 0.2);
-            color: #f44336;
-            display: block;
-        }
-
-        /* Footer */
+        /* ===== Footer ===== */
         footer {
-            background: var(--text-dark);
+            background: linear-gradient(160deg, var(--green-deep-2) 0%, var(--ink) 100%);
             color: white;
-            padding: 3rem 2rem 1rem;
+            padding: 4rem 2rem 1.5rem;
         }
 
         .footer-container {
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .footer-brand .dot { color: var(--green); }
 
         .footer-section h3 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            margin-bottom: 1.1rem;
+            font-size: 0.85rem;
+            font-family: var(--mono);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.5);
+            font-weight: 400;
         }
 
-        .footer-section p,
-        .footer-section a {
-            color: rgba(255,255,255,0.7);
+        .footer-section p, .footer-section a {
+            color: rgba(255,255,255,0.65);
             text-decoration: none;
-            font-size: 0.95rem;
-            line-height: 1.8;
+            font-size: 0.93rem;
+            line-height: 1.9;
+            transition: color 0.25s;
         }
 
-        .footer-section a:hover {
-            color: white;
-        }
+        .footer-section a:hover { color: var(--lime); }
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+        .social-links { display: flex; gap: 0.8rem; margin-top: 1.2rem; }
 
         .social-links a {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-green);
-            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
         }
 
-        .social-links a:hover {
-            background: var(--secondary-green);
-            transform: translateY(-3px);
-        }
+        .social-links a:hover { background: var(--green); transform: translateY(-3px); }
 
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 1rem;
+            padding-top: 1.5rem;
             text-align: center;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
         }
 
-        /* Cart Modal */
+        /* ===== Cart Modal ===== */
         .cart-modal {
             display: none;
             position: fixed;
             z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(10,14,10,0.55);
+            backdrop-filter: blur(3px);
         }
 
-        .cart-modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-        }
+        .cart-modal.active { display: flex; align-items: center; justify-content: flex-end; }
 
         .cart-content {
-            background: white;
+            background: var(--white);
             height: 100%;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.4s cubic-bezier(.22,.61,.36,1);
         }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(0);
-            }
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
         }
 
         .cart-header {
-            background: var(--primary-green);
+            background: var(--green-deep);
             color: white;
-            padding: 1.5rem;
+            padding: 1.6rem 1.8rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+        .cart-header h2 { font-size: 1.3rem; font-weight: 600; }
 
-        .cart-items {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-        }
+        .cart-items { flex-grow: 1; overflow-y: auto; padding: 1.2rem 1.8rem; }
 
         .cart-item {
             display: flex;
             gap: 1rem;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
+            padding: 1.1rem 0;
+            border-bottom: 1px solid var(--line);
         }
 
-        .cart-item-info {
-            flex-grow: 1;
-        }
+        .cart-item-info { flex-grow: 1; }
 
-        .cart-item-name {
-            font-weight: 600;
-            color: var(--text-dark);
-        }
+        .cart-item-name { font-weight: 600; color: var(--ink); font-size: 0.95rem; }
 
-        .cart-item-price {
-            color: var(--primary-green);
-            font-weight: 600;
-        }
+        .cart-item-price { color: var(--green-dark); font-weight: 600; font-family: var(--mono); font-size: 0.9rem; margin-top: 0.2rem; }
 
-        .cart-item-qty {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            align-items: center;
-        }
+        .cart-item-qty { display: flex; gap: 0.6rem; margin-top: 0.6rem; align-items: center; }
 
         .qty-btn {
-            width: 25px;
-            height: 25px;
-            border: 1px solid var(--border-color);
+            width: 26px; height: 26px;
+            border: 1.5px solid var(--line);
             background: white;
-            border-radius: 4px;
+            border-radius: 7px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            transition: all 0.2s;
         }
+        .qty-btn:hover { background: var(--mint); border-color: var(--green); }
 
-        .qty-btn:hover {
-            background: var(--light-green);
-        }
-
-        .cart-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border-color);
-        }
+        .cart-footer { padding: 1.6rem 1.8rem; border-top: 1px solid var(--line); }
 
         .cart-total {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--primary-green);
+            color: var(--ink);
+            font-family: var(--display);
         }
 
-        .btn-checkout {
+        .btn-checkout { width: 100%; justify-content: center; }
+
+        .empty-cart { text-align: center; padding: 3rem 1rem; color: var(--gray); }
+        .empty-cart i { font-size: 2.4rem; color: var(--line); margin-bottom: 1rem; display: block; }
+
+        /* ===== Notification ===== */
+        .toast-notif {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: var(--green-deep);
+            color: white;
+            padding: 1rem 1.6rem;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(13,51,32,0.35);
+            z-index: 3000;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            animation: toastIn 0.4s cubic-bezier(.22,.61,.36,1), toastOut 0.4s ease 2.6s forwards;
+        }
+        .toast-notif i { color: var(--lime); }
+        @keyframes toastIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes toastOut { to { transform: translateX(120%); opacity: 0; } }
+
+        /* ===== Custom modal (replaces alert) ===== */
+        .info-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 3500;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10,14,10,0.55);
+            backdrop-filter: blur(3px);
+            padding: 1.5rem;
+        }
+        .info-modal.active { display: flex; }
+        .info-modal-box {
+            background: white;
+            border-radius: 20px;
+            max-width: 440px;
             width: 100%;
-        }
-
-        .empty-cart {
+            padding: 2.2rem;
             text-align: center;
-            padding: 2rem;
-            color: var(--text-light);
+            animation: modalPop 0.35s cubic-bezier(.22,.61,.36,1);
         }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.92) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .info-modal-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: var(--mint);
+            color: var(--green-dark);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 1.2rem;
+        }
+        .info-modal-box h3 { font-size: 1.25rem; margin-bottom: 0.7rem; color: var(--ink); }
+        .info-modal-box p { color: var(--gray); font-size: 0.95rem; margin-bottom: 0.4rem; white-space: pre-line; line-height: 1.7; }
+        .info-modal-box .btn { margin-top: 1.4rem; width: 100%; justify-content: center; }
 
-        /* Responsive */
+        /* ===== Responsive ===== */
         @media (max-width: 1024px) {
-            .header-container {
-                padding: 0 1.5rem;
-            }
-
-            .logo {
-                gap: 0.5rem;
-                font-size: 1.3rem;
-            }
-
-            .logo-img {
-                width: 60px;
-                height: 60px;
-            }
-
-            nav {
-                gap: 1.5rem;
-            }
-
-            nav a {
-                font-size: 0.95rem;
-            }
-
-            .hero {
-                padding: 4rem 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .about {
-                padding: 3rem 1.5rem;
-            }
-
-            .about-grid {
-                gap: 2rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .about-features {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-content {
-                gap: 2rem;
-            }
-
-            .products {
-                padding: 3rem 1.5rem;
-            }
-
-            .benefits {
-                padding: 3rem 1.5rem;
-            }
+            .header-container { padding: 0 1.5rem; }
+            .hero { min-height: 80vh; }
+            .hero-text { padding: 3rem 2rem; }
+            .hero-tag { bottom: 1.4rem; right: 1.4rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-image { order: -1; }
+            .contact-content { grid-template-columns: 1fr; gap: 2.5rem; }
+            .footer-container { grid-template-columns: 1fr 1fr; }
         }
 
         @media (max-width: 768px) {
-            .header-container {
-                padding: 0 1rem;
-            }
-
-            .logo {
-                gap: 0.3rem;
-                font-size: 1.1rem;
-            }
-
-            .logo-img {
-                width: 50px;
-                height: 50px;
-            }
-
             nav {
                 display: none;
-                gap: 0;
                 flex-direction: column;
+                align-items: flex-start;
                 position: absolute;
-                top: 100px;
-                left: 0;
-                right: 0;
-                background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
-                padding: 1rem;
-                width: 100%;
-            }
-
-            nav.active {
-                display: flex;
-            }
-
-            nav a {
-                padding: 0.8rem 0;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .cart-icon {
-                font-size: 1.3rem;
-            }
-
-            .hero {
-                padding: 3rem 1rem;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero p {
-                font-size: 0.95rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .cta-buttons .btn {
-                width: 100%;
-                padding: 0.7rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .about {
-                padding: 2rem 1rem;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .about-text h2 {
-                font-size: 1.5rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .section-subtitle {
-                font-size: 1rem;
-            }
-
-            .about-features {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .feature-box {
-                padding: 1rem;
-            }
-
-            .feature-box h3 {
-                font-size: 1rem;
-            }
-
-            .feature-box p {
-                font-size: 0.85rem;
-            }
-
-            .products {
-                padding: 2rem 1rem;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .product-image {
-                height: 250px;
-            }
-
-            .product-card:hover {
-                transform: translateY(-5px);
-            }
-
-            .benefits {
-                padding: 2rem 1rem;
-            }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .benefit-card {
-                padding: 1.5rem;
-            }
-
-            .benefit-icon {
-                font-size: 2rem;
-            }
-
-            .benefit-card h3 {
-                font-size: 1.1rem;
-            }
-
-            .benefit-card p {
-                font-size: 0.9rem;
-            }
-
-            .contact {
-                padding: 2rem 1rem;
-            }
-
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .contact-info h2 {
-                font-size: 1.5rem;
-            }
-
-            .form-group input,
-            .form-group textarea {
-                padding: 0.7rem;
-                font-size: 16px;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .footer-section h3 {
-                margin-bottom: 0.8rem;
-            }
-
-            .footer-section p,
-            .footer-section a {
-                font-size: 0.85rem;
-            }
-
-            .cart-content {
-                max-width: 100%;
-            }
-
-            .product-name {
-                font-size: 1.1rem;
-            }
-
-            .product-description {
-                font-size: 0.85rem;
-            }
-
-            .product-specs {
-                padding: 0.8rem;
-            }
-
-            .spec-item {
-                font-size: 0.85rem;
-            }
-
-            .product-price {
-                margin-bottom: 0.8rem;
-            }
-
-            .price {
-                font-size: 1.3rem;
-            }
-
-            .btn-small {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem;
-            }
-
-            .product-actions {
-                gap: 0.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-container {
-                padding: 0 0.8rem;
-            }
-
-            .logo {
-                font-size: 1rem;
-            }
-
-            .logo-img {
-                width: 45px;
-                height: 45px;
-            }
-
-            .hero {
-                padding: 2rem 0.8rem;
-            }
-
-            .hero h1 {
-                font-size: 1.4rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .hero p {
-                font-size: 0.85rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .cta-buttons .btn {
-                padding: 0.6rem 0.8rem;
-                font-size: 0.85rem;
-            }
-
-            .about {
-                padding: 1.5rem 0.8rem;
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-
-            .section-subtitle {
-                font-size: 0.9rem;
-            }
-
-            .about-text h2 {
-                font-size: 1.3rem;
-            }
-
-            .about-text p {
-                font-size: 0.9rem;
-            }
-
-            .feature-box {
-                padding: 0.8rem;
-            }
-
-            .feature-box i {
-                font-size: 1.4rem;
-            }
-
-            .products {
-                padding: 1.5rem 0.8rem;
-            }
-
-            .product-image {
-                height: 200px;
-            }
-
-            .product-content {
-                padding: 1rem;
-            }
-
-            .product-name {
-                font-size: 1rem;
-            }
-
-            .product-specs {
-                padding: 0.6rem;
-            }
-
-            .benefits {
-                padding: 1.5rem 0.8rem;
-            }
-
-            .benefit-card {
-                padding: 1rem;
-            }
-
-            .benefit-icon {
-                font-size: 1.8rem;
-            }
-
-            .contact {
-                padding: 1.5rem 0.8rem;
-            }
-
-            .contact-info h2 {
-                font-size: 1.3rem;
-            }
-
-            .footer-container {
-                gap: 1rem;
-            }
-
-            .footer-section h3 {
-                font-size: 0.95rem;
-            }
-
-            nav a {
-                padding: 0.6rem 0;
-                font-size: 0.9rem;
-            }
+                top: 100%;
+                left: 0; right: 0;
+                background: var(--white);
+                border-bottom: 1px solid var(--line);
+                padding: 1rem 1.5rem 1.5rem;
+                gap: 0.2rem;
+            }
+            nav.active { display: flex; }
+            nav a { padding: 0.8rem 0; width: 100%; border-bottom: 1px solid var(--line); }
+            nav a:last-of-type { border-bottom: none; }
+            .nav-cta-link { margin-top: 0.5rem; text-align: center; justify-content: center; }
+            .menu-toggle { display: block; }
+            .hero-text { padding: 3rem 1.4rem 2rem; }
+            .hero h1 { font-size: 2.1rem; }
+            .hero-stats { gap: 1.5rem; }
+            .cta-buttons { flex-direction: column; width: 100%; }
+            .cta-buttons .btn { width: 100%; justify-content: center; }
+            .about, .products, .benefits, .contact { padding: 4rem 1.4rem; }
+            .about-features { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-form { padding: 1.8rem; }
+            .cart-content { max-width: 100%; }
         }
     </style>
 </head>
-<body>
+<body class="hero-load-pending">
     <!-- Navigation -->
-    <header>
+    <header id="siteHeader">
         <div class="header-container">
             <a href="#" class="logo">
                 <div class="logo-img">
-                    <img id="logoImg" src="logo.jpeg" alt="BIOFERT Logo">
+                    <img id="logoImg" src="logo.jpeg" alt="BIOFERT Logo" onerror="this.parentElement.innerHTML='<i class=\'fas fa-leaf\' style=\'color:white;font-size:1.2rem\'></i>'">
                 </div>
-                <span style="display: none;">BIOFERT</span>
+                <span><span class="dot"></span></span>
             </a>
             <button class="menu-toggle" onclick="toggleMenu()">
                 <i class="fas fa-bars"></i>
@@ -1230,7 +1169,7 @@
                 <a href="#products">Produits</a>
                 <a href="#benefits">Avantages</a>
                 <a href="#contact">Contact</a>
-                <a href="admin.html" style="color: var(--accent-yellow);">Admin</a>
+                <a href="admin.html" class="nav-cta-link">Admin</a>
                 <div class="cart-icon" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
@@ -1241,28 +1180,50 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Nourrissez la Terre, Récoltez l'Avenir</h1>
-            <p>Engrais organiques 100% naturels à base de déchets de poisson et de volaille. Durables, efficaces, respectueux de l'environnement.</p>
+        <div class="hero-bg">
+            <img src="hero2.jpg" alt="Champ agricole fertilisé avec BIOFERT" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(160deg, var(--green-deep) 0%, var(--green-deep-2) 100%)';">
+        </div>
+        <div class="hero-text">
+            <span class="hero-eyebrow">Engrais 100% organique</span>
+            <h1>Avec BIOFERT, nourrissez la terre,<br>récoltez l'<span class="accent">avenir</span>.</h1>
+            <p>Engrais organiques à base de déchets de poisson et de volaille. Durables, performants, conçus pour l'agriculture africaine de demain.</p>
             <div class="cta-buttons">
-                <button class="btn btn-primary" onclick="scrollToSection('products')">Découvrir nos produits</button>
+                <button class="btn btn-primary" onclick="scrollToSection('products')">
+                    Découvrir nos produits <i class="fas fa-arrow-right"></i>
+                </button>
                 <button class="btn btn-secondary" onclick="scrollToSection('about')">En savoir plus</button>
             </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num">100%</div>
+                    <div class="hero-stat-label">Naturel</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">0</div>
+                    <div class="hero-stat-label">Chimique</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">3</div>
+                    <div class="hero-stat-label">Formats dispo.</div>
+                </div>
+            </div>
         </div>
+        <div class="hero-tag"><i class="fas fa-seedling"></i> Récolte 2026</div>
     </section>
 
     <!-- About Section -->
     <section class="about" id="about">
-        <h2 class="section-title">Pourquoi BIOFERT ?</h2>
-        <p class="section-subtitle">Une approche innovante et durable de la fertilisation agricole</p>
-        
+        <span class="section-eyebrow reveal">Notre mission</span>
+        <h2 class="section-title reveal">Pourquoi BIOFERT ?</h2>
+        <p class="section-subtitle reveal">Une approche innovante et durable de la fertilisation agricole</p>
+
         <div class="about-grid">
-            <div class="about-text">
+            <div class="about-text reveal">
                 <h2>L'agriculture de demain commence aujourd'hui</h2>
                 <p>BIOFERT est spécialisée dans la production et la commercialisation d'engrais organiques à base de déchets de poisson et de volaille. Notre mission est de contribuer au développement d'une agriculture durable en proposant aux agriculteurs des solutions de fertilisation naturelles, efficaces et respectueuses de l'environnement.</p>
                 <p>Nos produits sont formulés pour améliorer la structure du sol, stimuler la croissance des plantes et augmenter les rendements. 100% naturels, sans produits chimiques, ils garantissent des cultures saines et nutritives.</p>
-                
-                <div class="about-features">
+
+                <div class="about-features reveal-stagger">
                     <div class="feature-box">
                         <i class="fas fa-leaf"></i>
                         <h3>100% Naturel</h3>
@@ -1285,7 +1246,7 @@
                     </div>
                 </div>
             </div>
-            <div class="about-image">
+            <div class="about-image reveal">
                 <img src="image.png" alt="Illustration BIOFERT - Plante et racines">
             </div>
         </div>
@@ -1294,13 +1255,15 @@
     <!-- Products Section -->
     <section class="products" id="products">
         <div class="products-container">
-            <h2 class="section-title">Nos Produits</h2>
-            <p class="section-subtitle">Des formulations spécialisées pour chaque besoin agricole</p>
-            
-            <div class="products-grid">
+            <span class="section-eyebrow reveal">Notre gamme</span>
+            <h2 class="section-title reveal">Nos Produits</h2>
+            <p class="section-subtitle reveal">Des formulations spécialisées pour chaque besoin agricole</p>
+
+            <div class="products-grid reveal-stagger">
                 <!-- Product 1 -->
                 <div class="product-card">
                     <div class="product-image" id="prod1-img">
+                        <span class="product-badge">Compact</span>
                         <img src="image1.jpeg" alt="Engrais Organique 10kg">
                     </div>
                     <div class="product-content">
@@ -1308,15 +1271,15 @@
                         <p class="product-description">Formule optimisée pour tous types de cultures. Riche en éléments nutritifs essentiels à base de déchets de poisson et volaille.</p>
                         <div class="product-specs">
                             <div class="spec-item">
-                                <span class="spec-label">Format:</span>
+                                <span class="spec-label">Format</span>
                                 <span class="spec-value">10 kg</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">Composition:</span>
+                                <span class="spec-label">Composition</span>
                                 <span class="spec-value">Poisson & Volaille</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">Certif.:</span>
+                                <span class="spec-label">Certif.</span>
                                 <span class="spec-value">100% Organique</span>
                             </div>
                         </div>
@@ -1336,6 +1299,7 @@
                 <!-- Product 2 -->
                 <div class="product-card">
                     <div class="product-image" id="prod2-img">
+                        <span class="product-badge">Populaire</span>
                         <img src="image2.png" alt="Engrais Organique 25kg">
                     </div>
                     <div class="product-content">
@@ -1343,15 +1307,15 @@
                         <p class="product-description">Formule optimisée pour tous types de cultures. Riche en éléments nutritifs essentiels à base de déchets de poisson et volaille.</p>
                         <div class="product-specs">
                             <div class="spec-item">
-                                <span class="spec-label">Format:</span>
+                                <span class="spec-label">Format</span>
                                 <span class="spec-value">25 kg</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">Composition:</span>
+                                <span class="spec-label">Composition</span>
                                 <span class="spec-value">Poisson & Volaille</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">Certif.:</span>
+                                <span class="spec-label">Certif.</span>
                                 <span class="spec-value">100% Organique</span>
                             </div>
                         </div>
@@ -1371,6 +1335,7 @@
                 <!-- Product 3 -->
                 <div class="product-card">
                     <div class="product-image" id="prod3-img">
+                        <span class="product-badge">Pro</span>
                         <img src="image3.png" alt="Engrais Organique 50kg">
                     </div>
                     <div class="product-content">
@@ -1378,15 +1343,15 @@
                         <p class="product-description">Formule optimisée pour tous types de cultures. Riche en éléments nutritifs essentiels à base de déchets de poisson et volaille.</p>
                         <div class="product-specs">
                             <div class="spec-item">
-                                <span class="spec-label">Format:</span>
+                                <span class="spec-label">Format</span>
                                 <span class="spec-value">50 kg</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">Composition:</span>
+                                <span class="spec-label">Composition</span>
                                 <span class="spec-value">Poisson & Volaille</span>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-label">Certif.:</span>
+                                <span class="spec-label">Certif.</span>
                                 <span class="spec-value">100% Organique</span>
                             </div>
                         </div>
@@ -1408,37 +1373,38 @@
 
     <!-- Benefits Section -->
     <section class="benefits" id="benefits">
-        <h2 class="section-title">Avantages de BIOFERT</h2>
-        <p class="section-subtitle">Pourquoi choisir nos engrais organiques</p>
-        
-        <div class="benefits-grid">
+        <span class="section-eyebrow reveal">Bénéfices</span>
+        <h2 class="section-title reveal">Avantages de BIOFERT</h2>
+        <p class="section-subtitle reveal">Pourquoi choisir nos engrais organiques</p>
+
+        <div class="benefits-grid reveal-stagger">
             <div class="benefit-card">
-                <i class="fas fa-check-circle benefit-icon"></i>
+                <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
                 <h3>Améliore la structure du sol</h3>
                 <p>Notre formule enrichit le sol en matière organique et améliore sa structure pour une meilleure rétention d'eau.</p>
             </div>
             <div class="benefit-card">
-                <i class="fas fa-plant-wilt benefit-icon"></i>
+                <div class="benefit-icon"><i class="fas fa-plant-wilt"></i></div>
                 <h3>Stimule la croissance</h3>
                 <p>Les nutriments naturels favorisent une croissance rapide et robuste des plantes et des rendements accrus.</p>
             </div>
             <div class="benefit-card">
-                <i class="fas fa-seedling benefit-icon"></i>
+                <div class="benefit-icon"><i class="fas fa-seedling"></i></div>
                 <h3>Augmente les rendements</h3>
                 <p>Les récoltes sont plus abondantes et de meilleure qualité grâce à une nutrition optimale et équilibrée.</p>
             </div>
             <div class="benefit-card">
-                <i class="fas fa-leaf benefit-icon"></i>
+                <div class="benefit-icon"><i class="fas fa-leaf"></i></div>
                 <h3>Zéro résidu chimique</h3>
                 <p>Produit 100% naturel, sans pesticides ni produits chimiques. Cultiver en toute confiance et sécurité.</p>
             </div>
             <div class="benefit-card">
-                <i class="fas fa-globe benefit-icon"></i>
+                <div class="benefit-icon"><i class="fas fa-globe"></i></div>
                 <h3>Respectueux de l'environnement</h3>
                 <p>Réutilise les déchets organiques et réduit l'empreinte carbone. Agriculture durable et responsable.</p>
             </div>
             <div class="benefit-card">
-                <i class="fas fa-handshake benefit-icon"></i>
+                <div class="benefit-icon"><i class="fas fa-handshake"></i></div>
                 <h3>Support local</h3>
                 <p>Fabriqué localement par des experts en agriculture. Soutient l'économie locale et l'emploi régional.</p>
             </div>
@@ -1448,28 +1414,29 @@
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="contact-container">
-            <h2 class="section-title" style="color: white; margin-bottom: 1rem;">Nous Contacter</h2>
             <div class="contact-content">
-                <div class="contact-info">
+                <div class="contact-info reveal">
+                    <span class="section-eyebrow" style="text-align:left; margin-bottom: 0.6rem;">Contact</span>
+                    <h2>Nous Contacter</h2>
                     <p>Vous avez des questions sur nos produits ? Besoin d'un conseil pour votre exploitation ? N'hésitez pas à nous contacter. Notre équipe est à votre écoute pour vous fournir une assistance personnalisée et des solutions adaptées à vos besoins.</p>
-                    
+
                     <div class="contact-details">
                         <div class="contact-item">
-                            <i class="fas fa-phone"></i>
+                            <div class="contact-item-icon"><i class="fas fa-phone"></i></div>
                             <div class="contact-item-text">
                                 <h3>Téléphone</h3>
                                 <p>+221 77 968 80 96</p>
                             </div>
                         </div>
                         <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
+                            <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
                             <div class="contact-item-text">
                                 <h3>Email</h3>
                                 <p>biofert2026@gmail.com</p>
                             </div>
                         </div>
                         <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
                             <div class="contact-item-text">
                                 <h3>Localisation</h3>
                                 <p>Dakar, Sénégal</p>
@@ -1478,7 +1445,7 @@
                     </div>
                 </div>
 
-                <form id="contactForm" class="contact-form">
+                <form id="contactForm" class="contact-form reveal">
                     <div class="form-group">
                         <label for="name">Nom complet</label>
                         <input type="text" id="name" name="name" required>
@@ -1510,7 +1477,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3>BIOFERT</h3>
+                <div class="footer-brand">BIOFERT<span class="dot">.</span></div>
                 <p>Spécialiste en engrais organiques naturels. Contribuant au développement durable de l'agriculture africaine.</p>
                 <div class="social-links">
                     <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -1541,7 +1508,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 BIOFERT - Tous droits réservés. Engagement pour une agriculture durable.</p>
+            <p>&copy; 2026 BIOFERT — Tous droits réservés. Engagement pour une agriculture durable.</p>
         </div>
     </footer>
 
@@ -1550,18 +1517,19 @@
         <div class="cart-content">
             <div class="cart-header">
                 <h2>Mon Panier</h2>
-                <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+                <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer;">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="cart-items" id="cartItems">
                 <div class="empty-cart">
+                    <i class="fas fa-shopping-basket"></i>
                     <p>Votre panier est vide</p>
                 </div>
             </div>
             <div class="cart-footer">
                 <div class="cart-total">
-                    <span>Total:</span>
+                    <span>Total</span>
                     <span id="cartTotal">0 FCFA</span>
                 </div>
                 <button class="btn btn-primary btn-checkout" onclick="proceedToCheckout()">Passer la commande</button>
@@ -1569,7 +1537,24 @@
         </div>
     </div>
 
+    <!-- Info Modal (replaces alert) -->
+    <div class="info-modal" id="infoModal">
+        <div class="info-modal-box">
+            <div class="info-modal-icon"><i class="fas fa-check" id="infoModalIconEl"></i></div>
+            <h3 id="infoModalTitle">Titre</h3>
+            <p id="infoModalText">Texte</p>
+            <button class="btn btn-primary" onclick="closeInfoModal()">Compris</button>
+        </div>
+    </div>
+
     <script>
+        // Hero entrance animation (content stays visible by default even if this fails)
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                document.body.classList.remove('hero-load-pending');
+            });
+        });
+
         // Menu toggle
         function toggleMenu() {
             const navMenu = document.getElementById('navMenu');
@@ -1582,6 +1567,25 @@
                 document.getElementById('navMenu').classList.remove('active');
             });
         });
+
+        // Header scroll shadow
+        const siteHeader = document.getElementById('siteHeader');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) siteHeader.classList.add('scrolled');
+            else siteHeader.classList.remove('scrolled');
+        });
+
+        // Scroll reveal animations
+        const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        revealEls.forEach(el => revealObserver.observe(el));
 
         // Cart management
         let cart = [];
@@ -1624,7 +1628,7 @@
             cartCount.textContent = totalItems;
 
             if (cart.length === 0) {
-                cartItemsDiv.innerHTML = '<div class="empty-cart"><p>Votre panier est vide</p></div>';
+                cartItemsDiv.innerHTML = '<div class="empty-cart"><i class="fas fa-shopping-basket"></i><p>Votre panier est vide</p></div>';
                 cartTotal.textContent = '0 FCFA';
                 return;
             }
@@ -1644,7 +1648,7 @@
                                 <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
                             </div>
                         </div>
-                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 1.2rem;">
+                        <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.1rem;">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1658,14 +1662,25 @@
             document.getElementById('cartModal').classList.toggle('active');
         }
 
+        // Custom info modal (replaces alert())
+        function openInfoModal(title, text, icon = 'fa-check') {
+            document.getElementById('infoModalTitle').textContent = title;
+            document.getElementById('infoModalText').textContent = text;
+            document.getElementById('infoModalIconEl').className = 'fas ' + icon;
+            document.getElementById('infoModal').classList.add('active');
+        }
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
+        }
+
         function proceedToCheckout() {
             if (cart.length === 0) {
-                alert('Votre panier est vide');
+                openInfoModal('Panier vide', 'Votre panier est vide. Ajoutez des produits avant de passer commande.', 'fa-cart-shopping');
                 return;
             }
             const cartSummary = cart.map(item => `${item.name} x${item.quantity}`).join(', ');
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
+
             // Sauvegarder la commande
             const order = {
                 id: Date.now(),
@@ -1674,12 +1689,16 @@
                 total: total,
                 status: 'En attente'
             };
-            
+
             let orders = JSON.parse(localStorage.getItem('biofert_orders')) || [];
             orders.push(order);
             localStorage.setItem('biofert_orders', JSON.stringify(orders));
-            
-            alert(`Votre commandé est valide avec succès !\n\nRéf: ${order.id}\n${cartSummary}\n\nTotal: ${total.toLocaleString('fr-FR')} FCFA\n\nVeuillez nous contacter pour finaliser votre commande.`);
+
+            openInfoModal(
+                'Commande validée !',
+                `Réf: ${order.id}\n${cartSummary}\n\nTotal: ${total.toLocaleString('fr-FR')} FCFA\n\nVeuillez nous contacter pour finaliser votre commande.`,
+                'fa-circle-check'
+            );
             cart = [];
             updateCart();
             toggleCart();
@@ -1691,24 +1710,17 @@
         }
 
         function showProductDetails(productName) {
-            alert(`Détails du produit: ${productName}\n\nNos équipes vous contacteront pour plus d'informations et une commande en gros.`);
+            openInfoModal(
+                productName,
+                `Nos équipes vous contacteront pour plus d'informations et une commande en gros.`,
+                'fa-circle-info'
+            );
         }
 
         function showNotification(message) {
             const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #2d8e5f;
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(45, 142, 95, 0.3);
-                z-index: 3000;
-                animation: slideInRight 0.3s ease;
-            `;
-            notification.textContent = message;
+            notification.className = 'toast-notif';
+            notification.innerHTML = `<i class="fas fa-circle-check"></i> ${message}`;
             document.body.appendChild(notification);
             setTimeout(() => notification.remove(), 3000);
         }
@@ -1718,19 +1730,19 @@
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formStatus = document.getElementById('formStatus');
-            
+
             const formData = new FormData(contactForm);
             formData.append('access_key', 'a741136d-b23e-4891-a8b4-c6f4f8210215');
             formData.append('email', 'biofert2026@gmail.com');
-            
+
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     formStatus.className = 'form-status success';
                     formStatus.textContent = '✓ Message envoyé avec succès! Nous vous recontacterons sous peu.';
@@ -1757,22 +1769,6 @@
 
         // Initialize
         updateCart();
-
-        // Style for animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideInRight {
-                from {
-                    transform: translateX(400px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
