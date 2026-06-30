@@ -616,6 +616,8 @@
         .spec-item {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.6rem;
             margin-bottom: 0.55rem;
             font-size: 0.85rem;
             font-family: var(--mono);
@@ -629,11 +631,14 @@
             text-transform: uppercase;
             font-size: 0.72rem;
             letter-spacing: 0.04em;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .spec-value {
             color: var(--ink);
             font-weight: 500;
+            text-align: right;
         }
 
         .product-price {
@@ -1264,7 +1269,7 @@
                 <div class="product-card">
                     <div class="product-image" id="prod1-img">
                         <span class="product-badge">Compact</span>
-                        <img src="image1.jfif" alt="Engrais Organique 10kg">
+                        <img src="image1.jpeg" alt="Engrais Organique 10kg">
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">Engrais Organique 10kg</h3>
@@ -1277,6 +1282,10 @@
                             <div class="spec-item">
                                 <span class="spec-label">Composition</span>
                                 <span class="spec-value">Poisson & Volaille</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Sous-Composition</span>
+                                <span class="spec-value">Fiente de volaille Déchet de poisson Sciure de bois Bouse de vache</span>
                             </div>
                             <div class="spec-item">
                                 <span class="spec-label">Certif.</span>
@@ -1300,7 +1309,7 @@
                 <div class="product-card">
                     <div class="product-image" id="prod2-img">
                         <span class="product-badge">Populaire</span>
-                        <img src="image2.jfif" alt="Engrais Organique 25kg">
+                        <img src="image2.jpeg" alt="Engrais Organique 25kg">
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">Engrais Organique 25kg</h3>
@@ -1313,6 +1322,10 @@
                             <div class="spec-item">
                                 <span class="spec-label">Composition</span>
                                 <span class="spec-value">Poisson & Volaille</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Sous-Composition</span>
+                                <span class="spec-value">Fiente de volaille Déchet de poisson  Sciure de bois  Bouse de vache</span>
                             </div>
                             <div class="spec-item">
                                 <span class="spec-label">Certif.</span>
@@ -1336,7 +1349,7 @@
                 <div class="product-card">
                     <div class="product-image" id="prod3-img">
                         <span class="product-badge">Pro</span>
-                        <img src="image3.jfif" alt="Engrais Organique 50kg">
+                        <img src="image3.jpeg" alt="Engrais Organique 50kg">
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">Engrais Organique 50kg</h3>
@@ -1349,6 +1362,11 @@
                             <div class="spec-item">
                                 <span class="spec-label">Composition</span>
                                 <span class="spec-value">Poisson & Volaille</span>
+                            </div>
+
+                            <div class="spec-item">
+                                <span class="spec-label">Sous-Composition</span>
+                                <span class="spec-value">Fiente de volaille Déchet de poisson  Sciure de bois  Bouse de vache</span>
                             </div>
                             <div class="spec-item">
                                 <span class="spec-label">Certif.</span>
